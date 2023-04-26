@@ -244,7 +244,7 @@ def argparse():
 
 def generate_files(base_path, venv, project_data):
     pprint(project_data)
-    project_path = os.path.join(base_path, project_data['name'])
+    project_path = os.path.join(base_path, project_data["name"])
     if not os.path.isdir(project_path):
         create_dir(project_path)
     if venv:
@@ -255,13 +255,15 @@ def generate_files(base_path, venv, project_data):
         f.write("")
     if not os.path.exists(main_path := os.path.join(base_path, "main.py")):
         with open(main_path, "w") as f:
-            f.write(main_template.format(name=project_data['name']))
+            f.write(main_template.format(name=project_data["name"]))
     with open(os.path.join(base_path, "setup.cfg"), "w") as f:
         f.write(setup_template.format(**project_data))
-    with open(os.path.join(base_path, "pyproject.toml"), 'w') as f:
-        f.write("""[build-system]
+    with open(os.path.join(base_path, "pyproject.toml"), "w") as f:
+        f.write(
+            """[build-system]
 requires = ["setuptools"]
-build-backend = "setuptools.build_meta\"""")
+build-backend = "setuptools.build_meta\""""
+        )
     generate_gitignore(base_path)
 
 
