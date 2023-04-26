@@ -253,6 +253,8 @@ def generate_files(base_path, venv, project_data):
     create_dir(os.path.join(project_path, "src"))
     with open(os.path.join(project_path, "src", "__init__.py"), "w") as f:
         f.write("")
+    with open(os.path.join(project_path, "__init__.py"), "w") as f:
+        f.write("")
     if not os.path.exists(main_path := os.path.join(base_path, "main.py")):
         with open(main_path, "w") as f:
             f.write(main_template.format(name=project_data["name"]))
