@@ -9,6 +9,7 @@ This script generates the following project structure:
 ├── main.py
 ├── pyproject.toml
 ├── .gitignore
+├── README.md
 ├── venv (if --venv arg is used)
 ├── setup.cfg
 └── package/
