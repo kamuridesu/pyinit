@@ -171,12 +171,20 @@ cython_debug/
         f.write(content)
 
 
+def generate_readme_md(path: str, project_data: str):
+    content = f"""# {project_data['name']}\n\n{project_data['description']}\n\n"""
+    with open(os.path.join(path, "README.md"), "w") as f:
+        f.write(content)
+
+
 setup_template = """[metadata]
 name={name}
 version={version}
 description={description}
 author={author}
 author_email={email}
+long_description= file: README.md
+long_description_content_type=text/markdown
 url={repository}
 keywords={keywords}
 license={license}
@@ -267,6 +275,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta\""""
         )
     generate_gitignore(base_path)
+    generate_readme_md(base_path)
 
 
 def main():
