@@ -275,7 +275,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta\""""
         )
     generate_gitignore(base_path)
-    generate_readme_md(base_path)
+    generate_readme_md(base_path, project_data)
 
 
 def main():
