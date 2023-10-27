@@ -2,7 +2,7 @@ import os
 import sys
 from pprint import pprint
 from pathlib import Path
-from venv import create
+from venv import create as venv_create
 
 
 def generate_gitignore(path: str):
@@ -247,20 +247,22 @@ def argparse():
             data = input(f"{k.capitalize()} ({v}): ")
             if data:
                 project_data[k] = data
-    generate_files(base_path, venv, project_data)
+    generate_files(base_path, venv, project_data, yes)
 
 
-def generate_files(base_path, venv, project_data: dict[str, str]):
+def generate_files(base_path, venv, project_data: dict[str, str], default = False):
     pprint(project_data)
-    if (input("Is it OK? [S/N]") in ["Nn"]):
-        exit(0)
+    if default is False:
+        i = input("Is it OK? [S/N]: ")
+        if (i in "Nn"):
+            exit(0)
     project_data['project_name'] = project_data['name'].replace("-", "_")
     project_path = os.path.join(base_path, project_data["project_name"])
     if not os.path.isdir(project_path):
         create_dir(project_path)
     if venv:
         print("Creating virtualenv, this may take a while depending on your system")
-        create(os.path.join(base_path, "venv"), with_pip=True)
+        venv_create(os.path.join(base_path, "venv"), with_pip=True)
     create_dir(os.path.join(project_path, "src"))
     with open(os.path.join(project_path, "src", "__init__.py"), "w") as f:
         f.write("")
