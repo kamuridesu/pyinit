@@ -191,11 +191,11 @@ license={license}
 [options]
 zip_safe = False
 packages =
-    {name}
+    {project_name}
 """
 
 
-main_template = """import {name}
+main_template = """import {project_name}
 
 
 def main():
@@ -250,9 +250,12 @@ def argparse():
     generate_files(base_path, venv, project_data)
 
 
-def generate_files(base_path, venv, project_data):
+def generate_files(base_path, venv, project_data: dict[str, str]):
     pprint(project_data)
-    project_path = os.path.join(base_path, project_data["name"])
+    if (input("Is it OK? [S/N]") in ["Nn"]):
+        exit(0)
+    project_data['project_name'] = project_data['name'].replace("-", "_")
+    project_path = os.path.join(base_path, project_data["project_name"])
     if not os.path.isdir(project_path):
         create_dir(project_path)
     if venv:
@@ -265,7 +268,7 @@ def generate_files(base_path, venv, project_data):
         f.write("")
     if not os.path.exists(main_path := os.path.join(base_path, "main.py")):
         with open(main_path, "w") as f:
-            f.write(main_template.format(name=project_data["name"]))
+            f.write(main_template.format(project_name=project_data["project_name"]))
     with open(os.path.join(base_path, "setup.cfg"), "w") as f:
         f.write(setup_template.format(**project_data))
     with open(os.path.join(base_path, "pyproject.toml"), "w") as f:
